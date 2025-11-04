@@ -1,22 +1,19 @@
 package com.crud.redes.models;
 
-import com.crud.redes.models.Rol;
 import jakarta.persistence.*;
-
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
-@Table(name = "users")
+@Table(name = "roles")
 @Data
-public class Users {
+public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id")
-    private Rol rol;
+    @OneToMany(mappedBy = "rol")
+    private List<Users> users;
 }

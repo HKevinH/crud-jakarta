@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="primefaces"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--surface-ground);
+        }
+
+        .page-container {
+            width: 100%;
+            background: var(--surface-card);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            /*padding: 2rem;*/
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .5rem;
+        }
+
+        .p-datatable thead th {
+            background: var(--surface-100);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+    </style>
+    <div class="page-container p-10 border-round-lg shadow-2" id="content">
+        <p:growl id="messages" showDetail="true"/>
+
+        <h2 class="page-title"><i class="pi pi-building"></i> Sedes</h2>
+
+        <h:form id="frmSedes">
+            <!-- Botón para abrir el diálogo -->
+            <div class="header-actions">
+                <p:commandButton value="Nueva Sede" icon="pi pi-plus"
+                                 styleClass="p-button-success"
+                                 process="@this"
+                                 id="btnNewSede"
+                                 oncomplete="PF('dlgSede').show()"/>
+                <p:commandButton value="Editar"
+                                 id="btnEditSede"
+                                 icon="pi pi-pencil"
+                                 update="dlgSedeEdit"
+                                 oncomplete="PF('dlgSedeEdit').show()"
+                                 disabled="#{empty headquartersView.selected.name}" />
+            </div>
+
+            <!-- Tabla de sedes -->
+            <p:dataTable id="tblSedes"
+                         var="sede"
+                         value="#{headquartersView.listHeadquarters}"
+                         paginator="true" rows="8"
+                         selectionMode="single"
+                         selection="#{headquartersView.selected}"
+                         rowKey="#{sede.id}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{sede.id}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{sede.name}" />
+                </p:column>
+                <p:column headerText="Ciudad">
+                    <h:outputText value="#{sede.city}" />
+                </p:column>
+                <p:column headerText="Location">
+                    <h:outputText value="#{sede.location}" />
+                </p:column>
+                <p:column headerText="Dirección">
+                    <h:outputText value="#{sede.address}" />
+                </p:column>
+                <p:ajax event="rowSelect"
+                        update="@form:dlgSedeEdit, @form:btnEditSede"
+                        oncomplete="PF('dlgSedeEdit').show()" />
+
+                <p:column headerText="Acciones" style="text-align:center;">
+                    <p:commandButton icon="pi pi-trash"
+                                     styleClass="p-button-danger p-button-rounded p-button-outlined"
+                                     action="#{headquartersView.delete(sede)}"
+                                     update="tblSedes, messages, btnEditSede"
+                                     process="@this"
+                                     title="Eliminar"
+                                     onclick="return confirm('¿Seguro que deseas eliminar esta sede?');"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <!--   Dialogo Edit -->
+            <p:dialog id="dlgSedeEdit"
+                      header="Edit Sede"
+                      widgetVar="dlgSedeEdit"
+                      modal="true"
+                      resizable="false">
+
+                <div class="form-grid">
+                    <p:inputText value="#{headquartersView.selected.name}" placeholder="Nombre"/>
+                    <p:inputText value="#{headquartersView.selected.city}" placeholder="Ciudad"/>
+                    <p:inputText value="#{headquartersView.selected.address}" placeholder="Dirección"/>
+                    <p:inputText value="#{headquartersView.selected.location}" placeholder="Locacion"/>
+
+
+                    <div class="form-actions">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         action="#{headquartersView.update}"
+                                         update="tblSedes, messages"
+                                         process="@form"
+                                         oncomplete="PF('dlgSedeEdit').hide()"
+                                         styleClass="p-button-primary"/>
+
+                    </div>
+                </div>
+            </p:dialog>
+            <!-- Diálogo de registro -->
+            <p:dialog id="dlgSede"
+                      header="Registrar Sede"
+                      widgetVar="dlgSede"
+                      modal="true"
+                      resizable="false">
+
+                <div class="form-grid">
+                    <p:inputText value="#{headquartersView.newHeadquarters.name}" placeholder="Nombre"/>
+                    <p:inputText value="#{headquartersView.newHeadquarters.city}" placeholder="Ciudad"/>
+                    <p:inputText value="#{headquartersView.newHeadquarters.address}" placeholder="Dirección"/>
+                    <p:inputText value="#{headquartersView.newHeadquarters.location}" placeholder="Locacion"/>
+
+                    <div class="form-actions">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         action="#{headquartersView.save}"
+                                         update="tblSedes, messages"
+                                         process="@form"
+                                         oncomplete="PF('dlgSede').hide()"
+                                         styleClass="p-button-primary"/>
+
+                    </div>
+                </div>
+            </p:dialog>
+        </h:form>
+    </div>
+</ui:composition>

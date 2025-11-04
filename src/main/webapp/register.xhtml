@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces">
+
+<h:head>
+    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+</h:head>
+<style>
+    .ui-password,
+    .ui-password input {
+        width: 100% !important;
+    }
+    .ui-password .ui-password-toggle {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .ui-messages-error, .ui-message-error {
+        background-color: transparent !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+    .ui-message.ui-message-error .ui-message-error-detail {
+        color: #f44336 !important;
+        font-size: 0.875rem;
+        margin: 0px !important;
+    }asdasd
+</style>
+
+<h:body class="h-screen flex align-items-center justify-content-center surface-ground">
+    <p:growl id="messages" showDetail="true"/>
+
+    <h:form id="formRegister" styleClass="surface-card shadow-2 border-round p-5 w-full" style="max-width: 30rem;">
+        <h2 class="text-2xl font-semibold text-center mb-4 text-900">Crear cuenta</h2>
+
+        <div class="mb-3">
+            <label for="name" class="block text-700 text-sm mb-1">Nombre Completo</label>
+            <p:inputText id="name" value="#{registerView.name}" required="true"
+                         requiredMessage="El usuario es obligatorio" styleClass="w-full" />
+<!--            <p:message for="@previous" />-->
+            <p:message for="@previous" display="text" styleClass="w-full"/>
+
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="block text-700 text-sm mb-1">Correo</label>
+            <p:inputText id="email" value="#{registerView.email}" required="true"
+                         requiredMessage="El correo es obligatorio" styleClass="w-full">
+                <f:validateRegex pattern="^[\w-.]+@([\w-]+\.)+[\w-]{2,}$" />
+            </p:inputText>
+            <p:message for="@previous" display="text"/>
+
+            <!--            <p:message for="email" />-->
+        </div>
+
+        <div class="mb-3">
+            <label for="pass" class="block text-700 text-sm mb-1">Contraseña</label>
+            <p:password id="pass" value="#{registerView.password}" feedback="true" promptLabel="Escribe una contraseña"
+                        weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"
+                        required="true" requiredMessage="La contraseña es obligatoria"
+                        toggleMask="true" redisplay="true" styleClass="w-full" />
+<!--            <p:message for="pass" />-->
+            <p:message for="@previous" display="text"/>
+
+        </div>
+
+
+        <div class="mb-4">
+            <label for="confirm" class="block text-700 text-sm mb-1">Confirmar contraseña</label>
+            <p:password id="confirm" value="#{registerView.confirm}" feedback="false"
+                        required="true" requiredMessage="Confirma la contraseña"
+                        toggleMask="true" redisplay="true" styleClass="w-full" />
+            <p:message for="@previous" display="text"/>
+
+            <!--            <p:message for="confirm" />-->
+        </div>
+
+        <p:commandButton value="Crear cuenta"
+                         actionListener="#{registerView.register}"
+                         update="formRegister, messages"
+                         styleClass="w-full"
+                         style="background: var(--primary-color); border: none; color: white; padding: .75rem; border-radius: .5rem;" />
+
+        <div class="flex justify-content-end mt-3">
+            <h:link outcome="login" styleClass="no-underline text-primary text-sm hover:underline">
+                ¿Ya tienes cuenta? Inicia sesión
+            </h:link>
+        </div>
+    </h:form>
+</h:body>
+</html>

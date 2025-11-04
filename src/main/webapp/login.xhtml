@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces">
+
+<h:head>
+    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+</h:head>
+<style>
+    .ui-password,
+    .ui-password input {
+        width: 100% !important;
+    }
+    .ui-password .ui-password-toggle {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+
+<h:body class="h-screen flex align-items-center justify-content-center surface-ground">
+    <h:form id="formLogin" styleClass="surface-card shadow-2 border-round p-5 w-full" style="max-width: 28rem;">
+        <h2 class="text-2xl font-semibold text-center mb-4 text-900">Iniciar sesión</h2>
+
+        <p:messages id="msgs" showDetail="true" closable="true" />
+
+        <div class="mb-3">
+            <label for="user" class="block text-700 text-sm mb-1">Usuario</label>
+            <p:inputText id="user" value="#{loginView.username}" required="true"
+                         requiredMessage="El usuario es obligatorio"
+                         styleClass="w-full" />
+        </div>
+
+        <div class="mb-3">
+            <label for="pass" class="block text-700 text-sm mb-1">Contraseña</label>
+            <p:password id="pass" value="#{loginView.password}" feedback="false" toggleMask="true"
+                        required="true" requiredMessage="La contraseña es obligatoria"
+                        styleClass="w-full" />
+        </div>
+
+        <div class="flex align-items-center justify-content-between mb-4">
+            <div class="flex align-items-center gap-2">
+                <p:selectBooleanCheckbox id="remember" value="#{loginView.rememberMe}" />
+                <label for="remember" class="text-600 text-sm">Recordarme</label>
+            </div>
+            <h:outputLink value="#" styleClass="no-underline text-primary text-sm hover:underline">
+                ¿Olvidaste tu contraseña?
+            </h:outputLink>
+        </div>
+
+        <p:commandButton value="Ingresar"
+                         actionListener="#{loginView.doLogin}"
+                         update="msgs"
+                         styleClass="w-full bg-primary border-none text-white py-2 border-round"
+        />
+    </h:form>
+</h:body>
+</html>

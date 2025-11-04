@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://mysql:3306/crud_redes?useSSL=false&serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/crud_redes?useSSL=false&amp;serverTimezone=UTC
+        </property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ascent</property>
-
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+<!--        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
 
-        <!-- tus entidades -->
-        <mapping class="com.crud.model.Usuario"/>
+        <mapping class="com.crud.redes.models.Users"/>
+        <mapping class="com.crud.redes.models.Rol"/>
+        <mapping class="com.crud.redes.models.Headquarters"/>
+
     </session-factory>
 </hibernate-configuration>

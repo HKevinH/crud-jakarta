@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+</h:head>
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--surface-ground);
+    }
+</style>
+<h:body class="surface-ground min-h-screen">
+    <!-- HEADER -->
+    <div class="surface-card shadow-2 p-3 flex justify-content-between align-items-center">
+        <h2 class="text-xl font-bold text-primary">Bienvenido, #{userSession.user.name}</h2>
+        <p:commandButton value="Cerrar sesión" icon="pi pi-sign-out"
+                         action="#{userSession.logout}" styleClass="p-button-danger p-0" />
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="grid m-0">
+        <!-- SIDEBAR FIJO -->
+        <aside class="col-12 md:col-3 lg:col-2 p-0">
+            <div class="surface-card h-screen sticky top-0 p-3">
+                <h3 class="mt-0 mb-3">Menú</h3>
+
+                <p:menu styleClass="w-full">
+                    <p:menuitem value="Inicio" icon="pi pi-home"
+                                onclick="PF('b').show()" style="display:none"/>
+
+                    <p:menuitem value="Sedes" icon="pi pi-building"
+                                process="@this"
+                                update=":contentForm:content"
+                                actionListener="#{layoutView.load('/sections/headquarters.xhtml')}" />
+
+<!--                    <p:menuitem value="Servicios" icon="pi pi-briefcase"-->
+<!--                                process="@this"-->
+<!--                                update=":contentForm:content"-->
+<!--                                actionListener="#{layoutView.load('/sections/services.xhtml')}" />-->
+
+                    <p:menuitem value="Redes" icon="pi pi-sitemap"
+                                process="@this"
+                                update=":contentForm:content"
+                                actionListener="#{layoutView.load('/sections/networks.xhtml')}" />
+                </p:menu>
+            </div>
+        </aside>
+
+        <main class="col-12 md:col-9 lg:col-10">
+            <h:form id="contentForm">
+                <p:outputPanel id="content" class="p-3">
+                    <ui:include src="#{layoutView.current}" />
+                </p:outputPanel>
+            </h:form>
+        </main>
+    </div>
+</h:body>
+</html>
