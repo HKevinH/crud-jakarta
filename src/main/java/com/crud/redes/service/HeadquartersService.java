@@ -1,5 +1,6 @@
 package com.crud.redes.service;
 
+import com.crud.redes.config.HibernateUtil;
 import com.crud.redes.models.Headquarters;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.hibernate.Transaction;
@@ -12,7 +13,7 @@ public class HeadquartersService {
 
     public boolean create(Headquarters headquarters) {
         Transaction transaction = null;
-        try (var session = com.crud.redes.config.HibernateUtil.getSessionFactory().openSession()) {
+        try (var session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.persist(headquarters);
             transaction.commit();
@@ -29,7 +30,7 @@ public class HeadquartersService {
 
     public boolean update (Headquarters headquarters) {
         Transaction transaction = null;
-        try (var session = com.crud.redes.config.HibernateUtil.getSessionFactory().openSession()) {
+        try (var session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.merge(headquarters);
             transaction.commit();
@@ -45,7 +46,7 @@ public class HeadquartersService {
 
     public boolean delete (Headquarters headquarters) {
         Transaction transaction = null;
-        try (var session = com.crud.redes.config.HibernateUtil.getSessionFactory().openSession()) {
+        try (var session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.remove(headquarters);
             transaction.commit();
@@ -60,7 +61,7 @@ public class HeadquartersService {
     }
 
     public List<Headquarters> getAll() {
-        try (var session = com.crud.redes.config.HibernateUtil.getSessionFactory().openSession()) {
+        try (var session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Headquarters", Headquarters.class).list();
         } catch (Exception e) {
             e.printStackTrace();

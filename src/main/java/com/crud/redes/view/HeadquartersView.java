@@ -34,6 +34,11 @@ public class HeadquartersView implements Serializable {
         }
     }
 
+    public void prepareNew() {
+        this.newHeadquarters = new Headquarters();
+        this.selected = null;
+    }
+
     public void get_list() {
         this.listHeadquarters = headquartersService.getAll();
     }
@@ -56,6 +61,7 @@ public class HeadquartersView implements Serializable {
     }
 
     public void save(){
+        newHeadquarters.setIsPrimary(true);
         headquartersService.create(newHeadquarters);
         newHeadquarters = new Headquarters();
         get_list();

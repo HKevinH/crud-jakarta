@@ -63,6 +63,7 @@
                 <p:commandButton value="Nueva Sede" icon="pi pi-plus"
                                  styleClass="p-button-success"
                                  process="@this"
+                                 actionListener="#{headquartersView.prepareNew}"
                                  id="btnNewSede"
                                  oncomplete="PF('dlgSede').show()"/>
                 <p:commandButton value="Editar"
@@ -98,7 +99,7 @@
                 </p:column>
                 <p:ajax event="rowSelect"
                         update="@form:dlgSedeEdit, @form:btnEditSede"
-                        oncomplete="PF('dlgSedeEdit').show()" />
+                        oncomplete="if (#{not empty headquartersView.selected}) PF('dlgSedeEdit').show()" />
 
                 <p:column headerText="Acciones" style="text-align:center;">
                     <p:commandButton icon="pi pi-trash"
@@ -117,6 +118,7 @@
                       header="Edit Sede"
                       widgetVar="dlgSedeEdit"
                       modal="true"
+                      rendered="#{headquartersView.selected != null}"
                       resizable="false">
 
                 <div class="form-grid">
